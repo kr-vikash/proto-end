@@ -1,0 +1,8 @@
+spring:
+  profile:
+    active: dev
+  datasource:
+    url: jdbc:sqlite:connection
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    databse-platform: com.protoend.config.SQLiteDialect
