@@ -1,11 +1,11 @@
 package com.protoend.service.imp;
 
 
-import com.protoend.model.ProtoTest;
-import com.protoend.model.dto.ProtoTestDto;
+import com.protoend.base.util.exceptions.ProtoEndException;
+import com.protoend.model.ProtoEnd;
+import com.protoend.model.dto.ProtoEndDto;
 import com.protoend.repository.ProtoEndRepository;
 import com.protoend.service.ProtoTestService;
-import com.protoend.util.exceptions.ProtoEndException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +18,10 @@ public class ProtoTestServiceImp implements ProtoTestService {
     private ProtoEndRepository protoEndRepository;
 
     @Override
-    public ProtoTestDto createProtoTest(ProtoTestDto protoTestDto) {
-        ProtoTest protoTest = protoEndRepository.save(protoTestDto.entityMapper());
+    public ProtoEndDto createProtoTest(ProtoEndDto protoTestDto) {
+        ProtoEnd protoEnd = protoEndRepository.save(protoTestDto.entityMapper());
         try {
-            return new ProtoTestDto(protoTest);
+            return new ProtoEndDto(protoEnd);
         } catch (IOException e) {
             throw new ProtoEndException("Issue to parse request detail");
         }

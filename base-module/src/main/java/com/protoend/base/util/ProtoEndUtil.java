@@ -1,8 +1,8 @@
-package com.protoend.util;
+package com.protoend.base.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.protoend.util.exceptions.ProtoEndException;
+import com.protoend.base.util.exceptions.ProtoEndException;
 
 public class ProtoEndUtil {
 

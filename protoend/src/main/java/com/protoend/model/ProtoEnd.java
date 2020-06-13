@@ -1,6 +1,7 @@
 package com.protoend.model;
 
-import com.protoend.model.enumerator.ConnectionType;
+import com.protoend.base.model.enumerator.AuthType;
+import com.protoend.base.model.enumerator.ConnectionType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Table(name = "connection")
 @Getter
 @Setter
-public class ProtoTest {
+public class ProtoEnd {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -22,6 +23,13 @@ public class ProtoTest {
     @Column
     private String url;
 
+    @Column
+    private AuthType authType;
+
     @Lob
     private byte[] requestDetail;
+
+    @Lob
+    private byte[] auth;
+
 }

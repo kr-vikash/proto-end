@@ -1,8 +1,8 @@
 package com.protoend.service;
 
-import com.protoend.model.dto.ProtoTestDto;
+import com.protoend.model.dto.ProtoEndDto;
 
 public interface ProtoTestService {
 
-    ProtoTestDto createProtoTest(ProtoTestDto protoTestDto);
+    ProtoEndDto createProtoTest(ProtoEndDto protoTestDto);
 }

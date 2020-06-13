@@ -1,7 +1,7 @@
 package com.protoend.controller;
 
 
-import com.protoend.model.dto.ProtoTestDto;
+import com.protoend.model.dto.ProtoEndDto;
 import com.protoend.service.ProtoTestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/")
-public class ProtoTestController {
+public class ProtoEndController {
 
     @Autowired
         private ProtoTestService protoTestService;
 
-    @PostMapping("/connect")
-    public ResponseEntity<ProtoTestDto> testProtoRequest(@RequestBody ProtoTestDto protoTestDto) {
+    @PostMapping("/proto/request")
+    public ResponseEntity<ProtoEndDto> receiveProtoRequest(@RequestBody ProtoEndDto protoTestDto) {
 
-        ProtoTestDto protoTestDto2 = protoTestService.createProtoTest(protoTestDto);
+        ProtoEndDto protoTestDto2 = protoTestService.createProtoTest(protoTestDto);
         return new ResponseEntity<>(protoTestDto2 , HttpStatus.OK);
     }
 
