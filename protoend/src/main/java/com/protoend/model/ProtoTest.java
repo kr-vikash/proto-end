@@ -4,13 +4,24 @@ import com.protoend.model.enumerator.ConnectionType;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Map;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "connection")
 @Getter
 @Setter
 public class ProtoTest {
+
+    @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "type")
     private ConnectionType connectionType;
+
+    @Column
     private String url;
-    private RequestDetail requestDetail;
-    private Map<String, Object> additionalProperty;
+
+    @Lob
+    private byte[] requestDetail;
 }
