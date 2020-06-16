@@ -1,4 +1,4 @@
-package com.protoend.util.exceptions;
+package com.protoend.base.util.exceptions;
 
 public class ProtoEndException extends RuntimeException {
 
