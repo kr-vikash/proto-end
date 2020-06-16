@@ -1,4 +1,4 @@
-package com.protoend.base.util;
+package com.protoend.util;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,7 +18,7 @@ import java.io.IOException;
 import static com.protoend.base.util.ProtoEndUtil.getObjectMapper;
 
 
-public class AuthCustomSerializer extends JsonDeserializer {
+public class AuthModelDerializer extends JsonDeserializer {
 
     @Override
     public Object deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {

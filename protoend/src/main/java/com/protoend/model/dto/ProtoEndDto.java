@@ -8,11 +8,11 @@ import com.protoend.base.model.NoAuth;
 import com.protoend.base.model.OAuth;
 import com.protoend.base.model.enumerator.AuthType;
 import com.protoend.base.model.enumerator.ConnectionType;
-import com.protoend.base.util.AuthCustomSerializer;
 import com.protoend.base.util.ProtoEndUtil;
 import com.protoend.base.util.exceptions.ProtoEndException;
 import com.protoend.model.ProtoEnd;
 import com.protoend.model.RequestDetail;
+import com.protoend.util.AuthModelDerializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,7 +34,7 @@ public class ProtoEndDto {
 
     private AuthType authType;
 
-    @JsonDeserialize(using = AuthCustomSerializer.class)
+    @JsonDeserialize(using = AuthModelDerializer.class)
     private AuthModel authModel;
 
 
