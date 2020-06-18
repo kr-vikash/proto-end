@@ -12,9 +12,8 @@ public class BasicAuthenticator extends Authenticator {
     private Basic basicModel;
 
     public BasicAuthenticator(AuthModel authModel,
-                              Map<String, Object> headers,
-                              Map<String, Object> queryParam,
-                              String authorizationKey){
+                              Map<String, String> headers,
+                              Map<String, String> queryParam){
         try {
             this.basicModel = (Basic) authModel;
         }catch (NullPointerException | ClassCastException e){
@@ -22,7 +21,6 @@ public class BasicAuthenticator extends Authenticator {
         }
         this.headers = headers;
         this.queryParam = queryParam;
-        this.authorizationKey = authorizationKey;
     }
 
     private void authHeader(){
@@ -32,7 +30,7 @@ public class BasicAuthenticator extends Authenticator {
         String authValue = basicModel.getUsername()+":"+basicModel.getPassword();
         byte[] encodedAuthValue = Base64.getEncoder().encode(authValue.getBytes());
 
-        this.addHeader(authorizationKey, "Basic "+new String(encodedAuthValue));
+        this.addHeader(basicModel.getAuthorizationKey(), basicModel.getAuthValueType()+new String(encodedAuthValue));
     }
 
 }

@@ -1,12 +1,15 @@
 package com.protoend.auth.authenticator;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public abstract class Authenticator {
-    Map<String, Object> headers = null;
-    Map<String, Object> queryParam = null;
-    String authorizationKey = "Authorization";
+    Map<String, String> headers = null;
+    Map<String, String> queryParam = null;
+//    String authorizationKey = "Authorization";
 
     public void addHeader(String key, String val) {
         if (headers == null) {

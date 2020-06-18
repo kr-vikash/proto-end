@@ -11,9 +11,8 @@ public class OAuthAuthenticator extends Authenticator {
     private OAuth oauthModel;
 
     public OAuthAuthenticator(AuthModel authModel,
-                              Map<String, Object> headers,
-                              Map<String, Object> queryParam,
-                              String authorizationKey){
+                              Map<String, String> headers,
+                              Map<String, String> queryParam){
         try {
             this.oauthModel = (OAuth) authModel;
         }catch (NullPointerException | ClassCastException e){
@@ -21,6 +20,5 @@ public class OAuthAuthenticator extends Authenticator {
         }
         this.headers = headers;
         this.queryParam = queryParam;
-        this.authorizationKey = authorizationKey;
     }
 }
