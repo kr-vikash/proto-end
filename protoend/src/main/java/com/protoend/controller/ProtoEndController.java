@@ -19,10 +19,9 @@ public class ProtoEndController {
         private ProtoTestService protoTestService;
 
     @PostMapping("/proto/request")
-    public ResponseEntity<ProtoEndDto> receiveProtoRequest(@RequestBody ProtoEndDto protoTestDto) {
+    public ResponseEntity<String> receiveProtoRequest(@RequestBody ProtoEndDto protoTestDto) {
 
-        ProtoEndDto protoTestDto2 = protoTestService.createProtoTest(protoTestDto);
-        return new ResponseEntity<>(protoTestDto2 , HttpStatus.OK);
+        return protoTestService.createProtoTest(protoTestDto);
     }
 
 }
