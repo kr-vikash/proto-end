@@ -18,7 +18,7 @@ import java.io.IOException;
 import static com.protoend.base.util.ProtoEndUtil.getObjectMapper;
 
 
-public class AuthModelDerializer extends JsonDeserializer {
+public class AuthModelDeserializer extends JsonDeserializer {
 
     @Override
     public Object deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {

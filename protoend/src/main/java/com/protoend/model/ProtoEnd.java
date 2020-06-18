@@ -2,6 +2,7 @@ package com.protoend.model;
 
 import com.protoend.base.model.enumerator.AuthType;
 import com.protoend.base.model.enumerator.ConnectionType;
+import com.protoend.base.model.enumerator.TestStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,5 +32,8 @@ public class ProtoEnd {
 
     @Lob
     private byte[] auth;
+
+    @Column
+    private TestStatus status;
 
 }

@@ -8,11 +8,12 @@ import com.protoend.base.model.NoAuth;
 import com.protoend.base.model.OAuth;
 import com.protoend.base.model.enumerator.AuthType;
 import com.protoend.base.model.enumerator.ConnectionType;
+import com.protoend.base.model.enumerator.TestStatus;
 import com.protoend.base.util.ProtoEndUtil;
 import com.protoend.base.util.exceptions.ProtoEndException;
 import com.protoend.model.ProtoEnd;
 import com.protoend.model.RequestDetail;
-import com.protoend.util.AuthModelDerializer;
+import com.protoend.util.AuthModelDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,8 +35,10 @@ public class ProtoEndDto {
 
     private AuthType authType;
 
-    @JsonDeserialize(using = AuthModelDerializer.class)
+    @JsonDeserialize(using = AuthModelDeserializer.class)
     private AuthModel authModel;
+
+    private TestStatus status;
 
 
     public ProtoEnd entityMapper() {
@@ -46,6 +49,7 @@ public class ProtoEndDto {
         protoTest.setRequestDetail(ProtoEndUtil.objectToBytes(this.requestDetail));
         protoTest.setAuth(ProtoEndUtil.objectToBytes(this.authModel));
         protoTest.setAuthType(this.authType);
+        protoTest.setStatus(this.status);
         return protoTest;
     }
 
@@ -59,7 +63,7 @@ public class ProtoEndDto {
         this.url = protoTest.getUrl();
         this.connectionType = protoTest.getConnectionType();
         this.authType = protoTest.getAuthType();
-
+        this.status = protoTest.getStatus();
         switch (authType) {
             case BASIC:
                 this.authModel = ProtoEndUtil.getObjectMapper().readValue(protoTest.getAuth(), Basic.class);

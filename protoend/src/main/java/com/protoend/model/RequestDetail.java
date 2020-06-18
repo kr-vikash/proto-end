@@ -2,6 +2,7 @@ package com.protoend.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.http.HttpMethod;
 
 import java.util.Map;
 
@@ -9,9 +10,8 @@ import java.util.Map;
 @Getter
 @Setter
 public class RequestDetail {
-    private String method;
-//    private AuthType authType;
-    private Map<String, Object> headers;
-    private Map<String, Object> queryParameter;
+    private HttpMethod method;
+    private Map<String, String> headers;
+    private Map<String, String> queryParameter;
     private Object requestBody;
 }
