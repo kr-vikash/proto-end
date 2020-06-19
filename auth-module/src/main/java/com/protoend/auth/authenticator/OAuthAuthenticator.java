@@ -10,6 +10,8 @@ public class OAuthAuthenticator extends Authenticator {
 
     private OAuth oauthModel;
 
+    public String accessToken;
+
     public OAuthAuthenticator(AuthModel authModel,
                               Map<String, String> headers,
                               Map<String, String> queryParam){
@@ -20,5 +22,10 @@ public class OAuthAuthenticator extends Authenticator {
         }
         this.headers = headers;
         this.queryParam = queryParam;
+    }
+
+    public void processAuth() {
+        this.addHeader("Authorization", "Basic "+getEncodedCredentials(oauthModel.getClientId(), oauthModel.getClientSecret()));
+//        this.addQueryParam("code", );
     }
 }

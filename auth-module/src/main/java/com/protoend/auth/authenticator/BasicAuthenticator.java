@@ -23,7 +23,7 @@ public class BasicAuthenticator extends Authenticator {
         this.queryParam = queryParam;
     }
 
-    private void authHeader(){
+    public void processAuth(){
         if (basicModel.getPassword() == null && basicModel.getUsername() == null){
             throw new NullPointerException("Username and password can not be null");
         }
