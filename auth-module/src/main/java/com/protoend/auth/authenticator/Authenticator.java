@@ -1,7 +1,9 @@
 package com.protoend.auth.authenticator;
 
+import com.protoend.base.util.Constants;
 import lombok.Getter;
 
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,5 +25,12 @@ public abstract class Authenticator {
             queryParam = new HashMap<>();
         }
         this.queryParam.put(key, val);
+    }
+
+    public void processAuth(){}
+
+    public String getEncodedCredentials(String username, String password){
+        String credentials = new StringBuilder(username).append(Constants.COLON).append(password).toString();
+        return new String(Base64.getEncoder().encode(credentials.getBytes()));
     }
 }

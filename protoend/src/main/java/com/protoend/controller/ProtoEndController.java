@@ -6,22 +6,27 @@ import com.protoend.service.ProtoTestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/")
 public class ProtoEndController {
 
     @Autowired
-        private ProtoTestService protoTestService;
+    private ProtoTestService protoTestService;
 
     @PostMapping("/proto/request")
-    public ResponseEntity<String> receiveProtoRequest(@RequestBody ProtoEndDto protoTestDto) {
+    public ResponseEntity<String> receiverProtoRequest(@RequestBody ProtoEndDto protoTestDto) {
 
         return protoTestService.createProtoTest(protoTestDto);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<ProtoEndDto>> getProtoRequest() {
+
+        return new ResponseEntity<>(protoTestService.getAll(), HttpStatus.OK);
     }
 
 }

@@ -13,6 +13,7 @@ public class OAuth extends AuthModel {
     private String tokenUrl;
     private String scope;
     private String grantType;
+    private String redirectUrl;
 
     public OAuth(String clientId, String clientSecret, String tokenName, String tokenUrl, String scope, String grantType){
         this.clientId = clientId;
