@@ -11,8 +11,8 @@ public class Basic extends AuthModel {
 
     private String username;
     private String password;
-    private String authorizationKey;
-    private String authValueType = "Basic";
+    private String authorizationKey = "Authorization";
+    private String authValueType = "Basic ";
 
     public Basic(){};
 

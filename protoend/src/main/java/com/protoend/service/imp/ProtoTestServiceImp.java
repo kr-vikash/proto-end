@@ -87,6 +87,7 @@ public class ProtoTestServiceImp implements ProtoTestService {
         Authenticator authenticator = AuthFactory.getAuthenticator(protoEndDto.getAuthModel(),
                 protoEndDto.getRequestDetail().getHeaders(),
                 protoEndDto.getRequestDetail().getQueryParameter());
+        authenticator.processAuth();
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.setAll(authenticator.getHeaders() != null ? authenticator.getHeaders() : new HashMap<>());
         ResponseEntity<String> responseEntity = null;

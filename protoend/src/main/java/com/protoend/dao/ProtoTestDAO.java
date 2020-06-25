@@ -27,12 +27,11 @@ public class ProtoTestDAO  {
     private Connection connection;
 
 
-
     public List<ProtoEnd> getAll() throws SQLException {
         Connection connection = jdbcTemplate.getDataSource().getConnection();
         Statement statement = connection.createStatement();
         statement.setQueryTimeout(30);
-         ResultSet resultSet = statement.executeQuery("select * from connection");
+        ResultSet resultSet = statement.executeQuery("select * from connection");
         List<ProtoEnd> protoEnds = new ArrayList<>();
 
         while (resultSet.next()){
