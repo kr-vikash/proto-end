@@ -27,12 +27,11 @@ public class ProtoTestDAO  {
     private Connection connection;
 
 
-
     public List<ProtoEnd> getAll() throws SQLException {
         Connection connection = jdbcTemplate.getDataSource().getConnection();
         Statement statement = connection.createStatement();
         statement.setQueryTimeout(30);
-         ResultSet resultSet = statement.executeQuery("select * from connection");
+        ResultSet resultSet = statement.executeQuery("select * from connection order by created_time DESC;");
         List<ProtoEnd> protoEnds = new ArrayList<>();
 
         while (resultSet.next()){
@@ -41,9 +40,10 @@ public class ProtoTestDAO  {
             protoEnd.setAuth(resultSet.getBytes(2));
             protoEnd.setAuthType(AuthType.values()[resultSet.getInt(3)]);
             protoEnd.setConnectionType(ConnectionType.values()[resultSet.getInt(4)]);
-            protoEnd.setRequestDetail(resultSet.getBytes(5));
-            protoEnd.setStatus(TestStatus.values()[resultSet.getInt(6)]);
-            protoEnd.setUrl(resultSet.getString(7));
+            protoEnd.setCreatedTime(resultSet.getLong(5));
+            protoEnd.setRequestDetail(resultSet.getBytes(6));
+            protoEnd.setStatus(TestStatus.values()[resultSet.getInt(7)]);
+            protoEnd.setUrl(resultSet.getString(8));
             protoEnds.add(protoEnd);
         }
         connection.close();

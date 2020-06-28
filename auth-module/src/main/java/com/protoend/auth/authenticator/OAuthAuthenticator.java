@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class OAuthAuthenticator extends Authenticator {
 
-    private OAuth oauthModel;
+    private final OAuth oauthModel;
 
     public String accessToken;
 
@@ -25,7 +25,7 @@ public class OAuthAuthenticator extends Authenticator {
     }
 
     public void processAuth() {
-        this.addHeader("Authorization", "Basic "+getEncodedCredentials(oauthModel.getClientId(), oauthModel.getClientSecret()));
+//        this.addHeader("Authorization", "Basic "+getEncodedCredentials(oauthModel.getClientId(), oauthModel.getClientSecret()));
 //        this.addQueryParam("code", );
     }
 }

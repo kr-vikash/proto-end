@@ -8,5 +8,6 @@ public class Constants {
     public static final String COMMA = ",";
     public static final String EQUAL = "=";
     public static final String COLON = ":";
+    public static final String WHITE_SPACE = " ";
 
 }
