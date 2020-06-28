@@ -11,7 +11,6 @@ import java.util.Map;
 public abstract class Authenticator {
     Map<String, String> headers = null;
     Map<String, String> queryParam = null;
-//    String authorizationKey = "Authorization";
 
     public void addHeader(String key, String val) {
         if (headers == null) {

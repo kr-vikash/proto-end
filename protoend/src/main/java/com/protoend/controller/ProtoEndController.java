@@ -20,12 +20,11 @@ public class ProtoEndController {
     @PostMapping("/proto/request")
     public ResponseEntity<String> receiverProtoRequest(@RequestBody ProtoEndDto protoTestDto) {
 
-        return protoTestService.createProtoTest(protoTestDto);
+        return protoTestService.testRequest(protoTestDto);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProtoEndDto>> getProtoRequest() {
-
+    public ResponseEntity<List<ProtoEndDto>> getAllProtos() {
         return new ResponseEntity<>(protoTestService.getAll(), HttpStatus.OK);
     }
 

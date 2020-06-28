@@ -2,10 +2,7 @@ package com.protoend.model.dto;
 
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.protoend.base.model.AuthModel;
-import com.protoend.base.model.Basic;
-import com.protoend.base.model.NoAuth;
-import com.protoend.base.model.OAuth;
+import com.protoend.base.model.*;
 import com.protoend.base.model.enumerator.AuthType;
 import com.protoend.base.model.enumerator.ConnectionType;
 import com.protoend.base.model.enumerator.TestStatus;
@@ -35,6 +32,8 @@ public class ProtoEndDto {
 
     private AuthType authType;
 
+    private long createdTime;
+
     @JsonDeserialize(using = AuthModelDeserializer.class)
     private AuthModel authModel;
 
@@ -50,6 +49,7 @@ public class ProtoEndDto {
         protoTest.setAuth(ProtoEndUtil.objectToBytes(this.authModel));
         protoTest.setAuthType(this.authType);
         protoTest.setStatus(this.status);
+        protoTest.setCreatedTime(this.createdTime);
         return protoTest;
     }
 
@@ -77,7 +77,9 @@ public class ProtoEndDto {
             case NO_AUTH:
                 this.authModel = ProtoEndUtil.getObjectMapper().readValue(protoTest.getAuth(), NoAuth.class);
                 break;
-
+            case TOKEN:
+                this.authModel = ProtoEndUtil.getObjectMapper().readValue(protoTest.getAuth(), Token.class);
+                break;
             default:
                 throw new ProtoEndException("Invalid AUTH");
         }

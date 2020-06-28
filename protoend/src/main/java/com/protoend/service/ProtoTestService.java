@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ProtoTestService {
 
-    ResponseEntity<String> createProtoTest(ProtoEndDto protoTestDto);
+    ResponseEntity<String> testRequest(ProtoEndDto protoTestDto);
 
     List<ProtoEndDto> getAll();
 }

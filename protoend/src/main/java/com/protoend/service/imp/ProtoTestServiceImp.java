@@ -23,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +44,7 @@ public class ProtoTestServiceImp implements ProtoTestService {
     private RestTemplate restTemplate;
 
     @Override
-    public ResponseEntity<String> createProtoTest(ProtoEndDto protoTestDto) {
+    public ResponseEntity<String> testRequest(ProtoEndDto protoTestDto) {
         protoTestDto.setStatus(TestStatus.PENDING);
         try {
             ResponseEntity<String> responseEntity = sendProtoRequest(protoTestDto);
@@ -52,6 +53,7 @@ public class ProtoTestServiceImp implements ProtoTestService {
             } else {
                 protoTestDto.setStatus(TestStatus.FAILED);
             }
+            protoTestDto.setCreatedTime(Instant.now().getEpochSecond());
             ProtoEnd protoEnd = protoEndRepository.save(protoTestDto.entityMapper());
             logger.info("ProtoEnd saved to db: " + new ProtoEndDto(protoEnd));
             return responseEntity;

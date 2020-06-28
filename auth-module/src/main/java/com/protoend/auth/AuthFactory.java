@@ -1,9 +1,6 @@
 package com.protoend.auth;
 
-import com.protoend.auth.authenticator.Authenticator;
-import com.protoend.auth.authenticator.BasicAuthenticator;
-import com.protoend.auth.authenticator.NoAuthenticator;
-import com.protoend.auth.authenticator.OAuthAuthenticator;
+import com.protoend.auth.authenticator.*;
 import com.protoend.base.model.AuthModel;
 import com.protoend.base.util.exceptions.ProtoEndException;
 
@@ -25,6 +22,9 @@ public class AuthFactory {
                 break;
             case OAUTH:
                 authenticator = new OAuthAuthenticator(authModel, headers, queryParam);
+                break;
+            case TOKEN:
+                authenticator = new TokenAuthenticator(authModel, headers, queryParam);
                 break;
             default:
                 throw new ProtoEndException("The Authentication type"+ authModel.authType+" is not supported!!!");
