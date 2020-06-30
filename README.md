@@ -1,6 +1,6 @@
 # proto-end
 
-###  Setup and run backend
+###  Setup and run the Application
 
 1. Clone the repository
 
