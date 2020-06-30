@@ -15,9 +15,10 @@
         <relativePath/>
     </parent>
     <modules>
-        <module>protoend</module>
-        <module>auth-module</module>
         <module>base-module</module>
+        <module>auth-module</module>
+        <module>protoend</module>
+
     </modules>
 
 
