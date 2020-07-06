@@ -1,4 +1,4 @@
-package com.protoend.base.model;
+package com.protoend.auth.model;
 
 import com.protoend.base.model.enumerator.AuthType;
 
