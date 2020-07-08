@@ -12,6 +12,6 @@
 
 5. Make sure to comment it after first run
 
-6.run mvn clean install to proto-end folder( it will resource all the module dependency in order)
+6.run mvn clean install to proto-end folder( it will resolve all the module dependency in order)
 
 7.Run the main application from 'protoend' module
