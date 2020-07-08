@@ -1,6 +1,7 @@
 package com.protoend.controller;
 
 
+import com.protoend.model.Response;
 import com.protoend.model.dto.ProtoEndDto;
 import com.protoend.service.ProtoTestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class ProtoEndController {
     private ProtoTestService protoTestService;
 
     @PostMapping("/proto/request")
-    public ResponseEntity<String> receiverProtoRequest(@RequestBody ProtoEndDto protoTestDto) {
+    public ResponseEntity<Response> receiverProtoRequest(@RequestBody ProtoEndDto protoTestDto) {
 
         return protoTestService.testRequest(protoTestDto);
     }

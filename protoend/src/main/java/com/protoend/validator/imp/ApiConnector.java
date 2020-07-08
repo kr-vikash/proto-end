@@ -1,10 +1,12 @@
 package com.protoend.validator.imp;
 
 import com.protoend.auth.authenticator.Authenticator;
+import com.protoend.model.Response;
 import com.protoend.model.dto.ProtoEndDto;
 import com.protoend.util.BeanUtil;
 import com.protoend.validator.ProtoConnector;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -25,14 +27,21 @@ public class ApiConnector extends ProtoConnector {
     }
 
     @Override
-    public ResponseEntity<String> connect() {
+    public ResponseEntity<Response> connect() {
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.setAll(this.getAuthenticator().getHeaders() != null ? this.getAuthenticator().getHeaders() : new HashMap<>());
         HttpEntity<Object> request = new HttpEntity<>(this.getProtoEndDto().getRequestDetail().getRequestBody(), headers);
+        Response<String> response = null;
+        HttpStatus statusCode = null;
         try {
-            return restTemplate.exchange(this.getProtoEndDto().getUrl(), this.getProtoEndDto().getRequestDetail().getMethod(), request, String.class);
+            ResponseEntity<String> restResponse = restTemplate.exchange(this.getProtoEndDto().getUrl(), this.getProtoEndDto().getRequestDetail().getMethod(), request, String.class);
+            response = new Response<>(restResponse.getBody(), restResponse.getHeaders());
+            statusCode = restResponse.getStatusCode();
         } catch (HttpClientErrorException | HttpServerErrorException e) {
-            return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
+            response = new Response<>(e.getMessage());
+            statusCode = e.getStatusCode();
         }
+
+        return new ResponseEntity<Response>(response, statusCode);
     }
 }

@@ -8,6 +8,7 @@ import com.protoend.base.util.Constants;
 import com.protoend.base.util.exceptions.ProtoEndException;
 import com.protoend.dao.ProtoTestDAO;
 import com.protoend.model.ProtoEnd;
+import com.protoend.model.Response;
 import com.protoend.model.dto.ProtoEndDto;
 import com.protoend.repository.ProtoEndRepository;
 import com.protoend.service.ProtoTestService;
@@ -42,13 +43,13 @@ public class ProtoTestServiceImp implements ProtoTestService {
     private RestTemplate restTemplate;
 
     @Override
-    public ResponseEntity<String> testRequest(ProtoEndDto protoTestDto) {
+    public ResponseEntity<Response> testRequest(ProtoEndDto protoTestDto) {
         protoTestDto.setStatus(TestStatus.PENDING);
         try {
             protoTestDto.setCreatedTime(Instant.now().getEpochSecond());
             ProtoEnd protoEnd = protoEndRepository.save(protoTestDto.entityMapper());
             logger.info("ProtoEnd saved to db: " + new ProtoEndDto(protoEnd));
-            ResponseEntity<String> responseEntity = processProtoRequest(protoTestDto);
+            ResponseEntity<Response> responseEntity = processProtoRequest(protoTestDto);
             if (responseEntity.getStatusCode().is2xxSuccessful()) {
                 protoTestDto.setStatus(TestStatus.SUCCESS);
             } else {
@@ -82,7 +83,7 @@ public class ProtoTestServiceImp implements ProtoTestService {
         return protoEndDtos;
     }
 
-    public ResponseEntity<String> processProtoRequest(ProtoEndDto protoEndDto) {
+    public ResponseEntity<Response> processProtoRequest(ProtoEndDto protoEndDto) {
         Authenticator authenticator = AuthFactory.getAuthenticator(protoEndDto.getAuthModel(),
                 protoEndDto.getRequestDetail().getHeaders(),
                 protoEndDto.getRequestDetail().getQueryParameter());

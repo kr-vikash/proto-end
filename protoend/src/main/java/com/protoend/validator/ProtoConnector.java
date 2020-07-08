@@ -1,6 +1,7 @@
 package com.protoend.validator;
 
 import com.protoend.auth.authenticator.Authenticator;
+import com.protoend.model.Response;
 import com.protoend.model.dto.ProtoEndDto;
 import org.springframework.http.ResponseEntity;
 
@@ -9,7 +10,7 @@ public abstract class ProtoConnector {
     private Authenticator authenticator;
     private ProtoEndDto protoEndDto;
 
-    public ResponseEntity<String> connect(){
+    public ResponseEntity<Response> connect(){
        return null;
     }
 
