@@ -2,7 +2,7 @@ package com.protoend.model.dto;
 
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.protoend.base.model.*;
+import com.protoend.auth.model.*;
 import com.protoend.base.model.enumerator.AuthType;
 import com.protoend.base.model.enumerator.ConnectionType;
 import com.protoend.base.model.enumerator.TestStatus;

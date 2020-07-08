@@ -1,7 +1,7 @@
 package com.protoend.auth.authenticator;
 
-import com.protoend.base.model.AuthModel;
-import com.protoend.base.model.Basic;
+import com.protoend.auth.model.AuthModel;
+import com.protoend.auth.model.Basic;
 import com.protoend.base.util.Constants;
 import com.protoend.base.util.exceptions.ProtoEndException;
 

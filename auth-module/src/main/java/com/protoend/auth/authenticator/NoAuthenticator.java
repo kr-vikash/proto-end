@@ -1,6 +1,6 @@
 package com.protoend.auth.authenticator;
 
-import com.protoend.base.model.AuthModel;
+import com.protoend.auth.model.AuthModel;
 
 import java.util.Map;
 

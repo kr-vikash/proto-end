@@ -1,7 +1,7 @@
 package com.protoend.auth;
 
 import com.protoend.auth.authenticator.*;
-import com.protoend.base.model.AuthModel;
+import com.protoend.auth.model.AuthModel;
 import com.protoend.base.util.exceptions.ProtoEndException;
 
 import java.util.Map;
@@ -29,6 +29,7 @@ public class AuthFactory {
             default:
                 throw new ProtoEndException("The Authentication type"+ authModel.authType+" is not supported!!!");
         }
+        authenticator.processAuth();
         return authenticator;
 
     }
