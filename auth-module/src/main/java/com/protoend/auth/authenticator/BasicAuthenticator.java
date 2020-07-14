@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class BasicAuthenticator extends Authenticator {
 
-    private final Basic basicModel;
+    public final Basic basicModel;
 
     public BasicAuthenticator(AuthModel authModel,
                               Map<String, String> headers,

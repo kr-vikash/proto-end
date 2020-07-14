@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -38,6 +39,8 @@ public class ProtoEndDto {
     private AuthModel authModel;
 
     private TestStatus status;
+
+    private Map<String, Object> additionalProperties;
 
 
     public ProtoEnd entityMapper() {
