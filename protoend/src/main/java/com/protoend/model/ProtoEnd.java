@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 @Table(name = "connection")
@@ -39,5 +38,8 @@ public class ProtoEnd {
 
     @Column
     private long createdTime;
+
+    @Column
+    private byte[] additionalProperties;
 
 }
