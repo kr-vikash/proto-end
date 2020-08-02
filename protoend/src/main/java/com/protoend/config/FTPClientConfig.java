@@ -1,7 +1,7 @@
 package com.protoend.config;
 
 
-import org.apache.commons.net.ftp.FTPClient;
+import com.jcraft.jsch.JSch;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,10 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class FTPClientConfig {
 
     @Bean
-    public FTPClient getFTPClient(){
-        FTPClient ftpClient = new FTPClient();
-        ftpClient.setConnectTimeout(60000);
-        ftpClient.setRemoteVerificationEnabled(true);
-        return ftpClient;
+    public JSch getFTPClient(){
+        return new JSch();
     }
 }
