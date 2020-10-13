@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 
 @Entity
 @Table(name = "connection")
@@ -22,22 +21,27 @@ public class ProtoEnd {
     @Column(name = "type")
     private ConnectionType connectionType;
 
-    @Column
+    @Column(name = "url")
     private String url;
 
-    @Column
+    @Column(name = "auth_type")
     private AuthType authType;
 
     @Lob
+    @Column(name = "request_detail")
     private byte[] requestDetail;
 
     @Lob
+    @Column(name = "auth")
     private byte[] auth;
 
-    @Column
+    @Column(name = "status")
     private TestStatus status;
 
-    @Column
+    @Column(name = "created_time")
     private long createdTime;
+
+    @Column(name = "additional_properties")
+    private byte[] additionalProperties;
 
 }

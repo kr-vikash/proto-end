@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.IOException;
+import java.util.Map;
 
 @Getter
 @Setter
@@ -39,6 +40,8 @@ public class ProtoEndDto {
 
     private TestStatus status;
 
+    private Map<String, Object> additionalProperties;
+
 
     public ProtoEnd entityMapper() {
         ProtoEnd protoTest = new ProtoEnd();
@@ -46,6 +49,7 @@ public class ProtoEndDto {
         protoTest.setUrl(this.url);
         protoTest.setConnectionType(this.connectionType);
         protoTest.setRequestDetail(ProtoEndUtil.objectToBytes(this.requestDetail));
+        protoTest.setAdditionalProperties(ProtoEndUtil.objectToBytes(this.additionalProperties));
         protoTest.setAuth(ProtoEndUtil.objectToBytes(this.authModel));
         protoTest.setAuthType(this.authType);
         protoTest.setStatus(this.status);
@@ -56,10 +60,12 @@ public class ProtoEndDto {
     public ProtoEndDto() {
     }
 
+    @SuppressWarnings("unchecked")
     public ProtoEndDto(ProtoEnd protoTest) throws IOException {
 
         this.id = protoTest.getId();
         this.requestDetail = ProtoEndUtil.getObjectMapper().readValue(protoTest.getRequestDetail(), RequestDetail.class);
+        this.additionalProperties = ProtoEndUtil.getObjectMapper().readValue(protoTest.getAdditionalProperties(), Map.class);
         this.url = protoTest.getUrl();
         this.connectionType = protoTest.getConnectionType();
         this.authType = protoTest.getAuthType();

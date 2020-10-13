@@ -36,14 +36,15 @@ public class ProtoTestDAO  {
 
         while (resultSet.next()){
             ProtoEnd protoEnd = new ProtoEnd();
-            protoEnd.setId(resultSet.getInt(1));
-            protoEnd.setAuth(resultSet.getBytes(2));
-            protoEnd.setAuthType(AuthType.values()[resultSet.getInt(3)]);
-            protoEnd.setConnectionType(ConnectionType.values()[resultSet.getInt(4)]);
-            protoEnd.setCreatedTime(resultSet.getLong(5));
-            protoEnd.setRequestDetail(resultSet.getBytes(6));
-            protoEnd.setStatus(TestStatus.values()[resultSet.getInt(7)]);
-            protoEnd.setUrl(resultSet.getString(8));
+            protoEnd.setId(resultSet.getInt("id"));
+            protoEnd.setAuth(resultSet.getBytes("auth"));
+            protoEnd.setAuthType(AuthType.values()[resultSet.getInt("auth_type")]);
+            protoEnd.setConnectionType(ConnectionType.values()[resultSet.getInt("type")]);
+            protoEnd.setCreatedTime(resultSet.getLong("created_time"));
+            protoEnd.setRequestDetail(resultSet.getBytes("request_detail"));
+            protoEnd.setStatus(TestStatus.values()[resultSet.getInt("status")]);
+            protoEnd.setUrl(resultSet.getString("url"));
+            protoEnd.setAdditionalProperties(resultSet.getBytes("additional_properties"));
             protoEnds.add(protoEnd);
         }
         connection.close();

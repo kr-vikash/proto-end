@@ -6,4 +6,8 @@ public class ProtoEndException extends RuntimeException {
         super(msg);
     }
 
+    public ProtoEndException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }
