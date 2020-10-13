@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.protoend.base.util.exceptions.ProtoEndException;
 import com.protoend.base.util.exceptions.RequiredObjectException;
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
 public class ProtoEndUtil {
 
     private static ObjectMapper objectMapper;

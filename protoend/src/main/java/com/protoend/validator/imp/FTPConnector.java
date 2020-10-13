@@ -11,6 +11,7 @@ import com.protoend.model.dto.ProtoEndDto;
 import com.protoend.util.BeanUtil;
 import com.protoend.util.exceptions.ProtoConnectionException;
 import com.protoend.validator.ProtoConnector;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
@@ -18,9 +19,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
+import static com.protoend.base.util.Constants.STRICT_KEY_CHECK_DISABLE;
 import static com.protoend.base.util.ProtoEndUtil.getObjectMapper;
 
 /**
@@ -34,6 +38,10 @@ public class FTPConnector extends ProtoConnector {
     private final JSch ftpClient;
     private final Basic basicAuth;
     private Session session;
+
+    private static final String PATH = "path";
+    private static final String FILENAME = "fileName";
+    public static final String PORT ="port";
 
     public FTPConnector(Authenticator authenticator, ProtoEndDto protoEndDto) {
         if (authenticator instanceof BasicAuthenticator) {
@@ -59,28 +67,31 @@ public class FTPConnector extends ProtoConnector {
         int port = 22;
         try {
             if (addProperties != null &&
-                    addProperties.containsKey("port")) {
-                port = new Integer(String.valueOf(addProperties.get("port")));
+                    addProperties.containsKey(PORT)) {
+                port = new Integer(String.valueOf(addProperties.get(PORT)));
             }
         } catch (NumberFormatException e) {
             throw new DataFormatException("Invalid port value found!!!, Required format:Integer");
         }
+
         Object uploadFileVal = this.getProtoEndDto().getRequestDetail().getRequestBody();
-        String pathVal = (addProperties == null || addProperties.get("pathVariable") == null) ? null : String.valueOf(addProperties.get("pathVariable"));
-        String fileName = (addProperties == null || addProperties.get("fileName") == null) ? null : String.valueOf(addProperties.get("fileName"));
+        String pathVal = (addProperties == null || addProperties.get(PATH) == null) ? null : String.valueOf(addProperties.get(PATH));
+        String fileName = (addProperties == null || addProperties.get(FILENAME) == null) ? null : String.valueOf(addProperties.get(FILENAME));
         HttpMethod method = this.getProtoEndDto().getRequestDetail().getMethod();
         Response<Object> response = new Response<>();
         HttpStatus status = HttpStatus.OK;
+
         try {
             ChannelSftp channelSftp = establishConnection(host, port);
-            if (pathVal != null){
+            logger.info("SFTP/FTP connection status: ", channelSftp.isConnected());
+            if (pathVal != null) {
                 channelSftp.cd(pathVal);
             }
             switch (method) {
                 case GET:
-                    if (fileName != null){
-                        channelSftp.get(fileName);
-                    }else {
+                    if (fileName != null) {
+                        response.setBody(inputStreamToString(channelSftp.get(fileName)));
+                    } else {
                         response.setBody(channelSftp.ls("."));
                     }
                     break;
@@ -113,12 +124,22 @@ public class FTPConnector extends ProtoConnector {
             session.setTimeout(300000);
             session.setPort(port);
             session.setPassword(basicAuth.getPassword());
+            session.setConfig(STRICT_KEY_CHECK_DISABLE, "no");
             session.connect();
             logger.info("Session created !!!");
-            return (ChannelSftp) session.openChannel("sftp");
+            ChannelSftp channelSftp = (ChannelSftp) session.openChannel("sftp");
+            channelSftp.connect(120000);
+            return channelSftp;
         } catch (JSchException e) {
             logger.error(e.getMessage(), e);
             throw new ProtoConnectionException("Unable to establish the FTP/SFTP connection:" + e.getMessage());
         }
     }
+
+    private String inputStreamToString(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        IOUtils.copy(inputStream, byteArrayOutputStream);
+        return new String(byteArrayOutputStream.toByteArray());
+    }
+
 }
