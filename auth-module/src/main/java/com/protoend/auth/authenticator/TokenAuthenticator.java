@@ -12,8 +12,9 @@ public class TokenAuthenticator extends Authenticator {
     private final Token token;
 
     public TokenAuthenticator(AuthModel authModel,
-                              Map<String, String> headers,
-                              Map<String, String> queryParam){
+                              Map<String, Object> headers,
+                              Map<String, Object> queryParam,
+                              Map<String, Object> routeParam){
 
         try {
             this.token = (Token) authModel;
@@ -22,6 +23,7 @@ public class TokenAuthenticator extends Authenticator {
         }
         this.headers = headers;
         this.queryParam = queryParam;
+        this.routeParam = routeParam;
     }
 
     public void processAuth(){

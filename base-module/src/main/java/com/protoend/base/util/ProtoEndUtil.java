@@ -33,4 +33,11 @@ public class ProtoEndUtil {
         }
         return t;
     }
+
+    public static String getString(Object obj) {
+        if (obj != null) {
+            return String.valueOf(obj);
+        }
+        return null;
+    }
 }

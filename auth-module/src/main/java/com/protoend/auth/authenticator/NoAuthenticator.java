@@ -6,8 +6,9 @@ import java.util.Map;
 
 public class NoAuthenticator extends Authenticator{
 
-    public NoAuthenticator(AuthModel authModel, Map<String, String> headers, Map<String, String> queryParam){
+        public NoAuthenticator(AuthModel authModel, Map<String, Object> headers, Map<String, Object> queryParam, Map<String, Object> routeParam){
         this.headers = headers;
         this.queryParam = queryParam;
+        this.routeParam = routeParam;
     }
 }

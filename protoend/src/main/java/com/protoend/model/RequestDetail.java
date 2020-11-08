@@ -11,7 +11,8 @@ import java.util.Map;
 @Setter
 public class RequestDetail {
     private HttpMethod method;
-    private Map<String, String> headers;
-    private Map<String, String> queryParameter;
+    private Map<String, Object> headers;
+    private Map<String, Object> queryParameter;
+    private Map<String, Object> routeParameter;
     private Object requestBody;
 }

@@ -4,7 +4,7 @@ package com.protoend.service.imp;
 import com.protoend.auth.AuthFactory;
 import com.protoend.auth.authenticator.Authenticator;
 import com.protoend.base.model.enumerator.TestStatus;
-import com.protoend.base.util.Constants;
+import com.protoend.base.util.ProtoEndUtil;
 import com.protoend.base.util.exceptions.ProtoEndException;
 import com.protoend.dao.ProtoTestDAO;
 import com.protoend.model.ProtoEnd;
@@ -24,7 +24,6 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import static com.protoend.validator.ConnectorFactory.getConnector;
 
@@ -44,6 +43,7 @@ public class ProtoTestServiceImp implements ProtoTestService {
 
     @Override
     public ResponseEntity<Response> testRequest(ProtoEndDto protoTestDto) {
+        validateRequest(protoTestDto);
         protoTestDto.setStatus(TestStatus.PENDING);
         try {
             protoTestDto.setCreatedTime(Instant.now().getEpochSecond());
@@ -86,7 +86,13 @@ public class ProtoTestServiceImp implements ProtoTestService {
     public ResponseEntity<Response> processProtoRequest(ProtoEndDto protoEndDto) {
         Authenticator authenticator = AuthFactory.getAuthenticator(protoEndDto.getAuthModel(),
                 protoEndDto.getRequestDetail().getHeaders(),
-                protoEndDto.getRequestDetail().getQueryParameter());
+                protoEndDto.getRequestDetail().getQueryParameter(),
+                protoEndDto.getRequestDetail().getRouteParameter());
         return getConnector(authenticator, protoEndDto).connect();
+    }
+
+    private void validateRequest(ProtoEndDto protoEndDto){
+        ProtoEndUtil.notNull(protoEndDto, "ProtoEnd");
+        ProtoEndUtil.notNull(protoEndDto.getUrl(), "Url");
     }
 }
