@@ -13,8 +13,9 @@ public class OAuthAuthenticator extends Authenticator {
     public String accessToken;
 
     public OAuthAuthenticator(AuthModel authModel,
-                              Map<String, String> headers,
-                              Map<String, String> queryParam){
+                              Map<String, Object> headers,
+                                  Map<String, Object> queryParam,
+                              Map<String, Object> routeParam){
         try {
             this.oauthModel = (OAuth) authModel;
         }catch (NullPointerException | ClassCastException e){
@@ -22,6 +23,7 @@ public class OAuthAuthenticator extends Authenticator {
         }
         this.headers = headers;
         this.queryParam = queryParam;
+        this.routeParam = routeParam;
     }
 
     public void processAuth() {
