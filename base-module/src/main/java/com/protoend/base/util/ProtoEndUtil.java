@@ -29,9 +29,15 @@ public class ProtoEndUtil {
 
     public static <T> T  notNull(T t, String propertyName){
         if (t == null){
-            throw new RequiredObjectException( propertyName + " is required field to process the request !!!");
+            throw new RequiredObjectException( propertyName + " can not be null !!!");
         }
         return t;
+    }
+
+    public static void notNullAndNotEmpty(String val, String propertyName) {
+        if (val == null || val.trim().isEmpty()){
+            throw new RequiredObjectException(propertyName + "can not be null or empty!!!");
+        }
     }
 
     public static String getString(Object obj) {

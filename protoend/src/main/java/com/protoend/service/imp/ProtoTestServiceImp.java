@@ -93,6 +93,7 @@ public class ProtoTestServiceImp implements ProtoTestService {
 
     private void validateRequest(ProtoEndDto protoEndDto){
         ProtoEndUtil.notNull(protoEndDto, "ProtoEnd");
-        ProtoEndUtil.notNull(protoEndDto.getUrl(), "Url");
+        ProtoEndUtil.notNullAndNotEmpty(protoEndDto.getUrl(), "Url");
+        ProtoEndUtil.notNull(protoEndDto.getAuthModel(), "Authentication");
     }
 }
