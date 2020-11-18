@@ -19,7 +19,7 @@ public class TokenAuthenticator extends Authenticator {
         try {
             this.token = (Token) authModel;
         }catch (ClassCastException e){
-            throw new ProtoEndException("Invalid Authentication data");
+            throw new ProtoEndException("Invalid Authentication data", 400);
         }
         this.headers = headers;
         this.queryParam = queryParam;

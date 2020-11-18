@@ -19,24 +19,24 @@ public class ProtoEndUtil {
         return objectMapper;
     }
 
-    public static byte[] objectToBytes(Object object){
+    public static byte[] objectToBytes(Object object) throws ProtoEndException {
         try {
             return getObjectMapper().writeValueAsBytes(object);
         } catch (JsonProcessingException e) {
-            throw new ProtoEndException("Issue while parsing object to bytes");
+            throw new ProtoEndException("Issue while parsing object to bytes", 500);
         }
     }
 
-    public static <T> T  notNull(T t, String propertyName){
+    public static <T> T  notNull(T t, String propertyName) throws RequiredObjectException {
         if (t == null){
-            throw new RequiredObjectException( propertyName + " can not be null !!!");
+            throw new RequiredObjectException( propertyName + " can not be null !!!", 500);
         }
         return t;
     }
 
-    public static void notNullAndNotEmpty(String val, String propertyName) {
+    public static void notNullAndNotEmpty(String val, String propertyName) throws RequiredObjectException {
         if (val == null || val.trim().isEmpty()){
-            throw new RequiredObjectException(propertyName + "can not be null or empty!!!");
+            throw new RequiredObjectException(propertyName + " can not be null or empty!!!", 500);
         }
     }
 

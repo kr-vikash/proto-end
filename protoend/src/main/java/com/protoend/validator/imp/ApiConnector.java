@@ -38,10 +38,10 @@ public class ApiConnector extends ProtoConnector {
         HttpStatus statusCode = null;
         try {
             ResponseEntity<String> restResponse = restTemplate.exchange(buildURI(), this.getProtoEndDto().getRequestDetail().getMethod(), request, String.class);
-            response = new Response<>(restResponse.getBody(), restResponse.getHeaders());
             statusCode = restResponse.getStatusCode();
+            response = new Response<>(restResponse.getBody(), restResponse.getHeaders(), statusCode.value());
         } catch (HttpClientErrorException | HttpServerErrorException e) {
-            response = new Response<>(e.getMessage());
+            response = new Response<>(e.getMessage(), e.getStatusCode().value());
             statusCode = e.getStatusCode();
         }
 

@@ -24,7 +24,7 @@ public class ConnectorFactory {
                 protoConnector = new FTPConnector(authenticator, protoEndDto);
                 break;
             default:
-                throw new ProtoEndException("Not Implemented yet");
+                throw new ProtoEndException("Not Implemented yet", 500);
         }
         return protoConnector;
 
