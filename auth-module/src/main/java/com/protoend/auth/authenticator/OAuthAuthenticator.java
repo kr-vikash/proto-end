@@ -19,7 +19,7 @@ public class OAuthAuthenticator extends Authenticator {
         try {
             this.oauthModel = (OAuth) authModel;
         }catch (NullPointerException | ClassCastException e){
-            throw new ProtoEndException("Invalid Authentication data");
+            throw new ProtoEndException("Invalid Authentication data", 400);
         }
         this.headers = headers;
         this.queryParam = queryParam;

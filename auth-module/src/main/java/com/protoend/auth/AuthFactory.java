@@ -30,7 +30,7 @@ public class AuthFactory {
                 authenticator = new TokenAuthenticator(authModel, headers, queryParam, routeParam);
                 break;
             default:
-                throw new ProtoEndException("The Authentication type"+ authModel.authType+" is not supported!!!");
+                throw new ProtoEndException("The Authentication type"+ authModel.authType+" is not supported!!!", 500);
         }
         authenticator.processAuth();
         return authenticator;

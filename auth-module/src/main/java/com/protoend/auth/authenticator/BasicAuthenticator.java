@@ -19,7 +19,7 @@ public class BasicAuthenticator extends Authenticator {
         try {
             this.basicModel = (Basic) authModel;
         }catch (NullPointerException | ClassCastException e){
-            throw new ProtoEndException("Invalid Authentication data");
+            throw new ProtoEndException("Invalid Authentication data", 400);
         }
         this.headers = headers;
         this.queryParam = queryParam;
@@ -35,7 +35,7 @@ public class BasicAuthenticator extends Authenticator {
                 .append(basicModel.getPassword()).toString();
 
         byte[] encodedAuthValue = Base64.getEncoder().encode(authValue.getBytes());
-        this.addHeader(basicModel.getAuthorizationKey(), new StringBuilder(basicModel.getAuthValueType())
+        this.addHeader("Authorization", new StringBuilder("Basic")
                 .append(Constants.WHITE_SPACE)
                 .append(new String(encodedAuthValue)).toString());
     }

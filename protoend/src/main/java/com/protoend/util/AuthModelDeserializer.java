@@ -43,13 +43,13 @@ public class AuthModelDeserializer extends JsonDeserializer {
                 case CUSTOM:
                     //TODO Need to implement custom logic
                 default:
-                    throw new ProtoEndException("Invalid Auth type, please choose valid");
+                    throw new ProtoEndException("Invalid Auth type, please choose valid", 500);
             }
 
             return authModel;
         }catch (IOException | IllegalArgumentException e){
             logger.error(e.getMessage(), e);
-            throw new ProtoEndException("Unable to serialize Auth data!!!");
+            throw new ProtoEndException("Unable to serialize Auth data!!!", 500);
         }
     }
 
@@ -70,7 +70,7 @@ public class AuthModelDeserializer extends JsonDeserializer {
                 authModel = getObjectMapper().convertValue(node, OAuth.class);
                 break;
             default:
-                throw new ProtoEndException("Invalid Auth type, please choose valid");
+                throw new ProtoEndException("Invalid Auth type, please choose valid", 400);
         }
 
         return authModel;
