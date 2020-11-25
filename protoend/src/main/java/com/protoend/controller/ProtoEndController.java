@@ -32,6 +32,9 @@ public class ProtoEndController {
        } catch (ProtoEndException e) {
            logger.error(e.getMessage(), e);
            responseEntity = new ResponseEntity<>(new Response(e.getMessage(), e.getStatus()), HttpStatus.OK);
+       } catch (RuntimeException e) {
+           logger.error(e.getMessage(), e);
+           responseEntity = new ResponseEntity<>(new Response(e.getMessage(), 500), HttpStatus.OK);
        }
         return responseEntity;
     }

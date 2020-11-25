@@ -3,10 +3,10 @@ package com.protoend.service.imp;
 
 import com.protoend.auth.AuthFactory;
 import com.protoend.auth.authenticator.Authenticator;
+import com.protoend.base.model.enumerator.ConnectionType;
 import com.protoend.base.model.enumerator.TestStatus;
 import com.protoend.base.util.ProtoEndUtil;
 import com.protoend.base.util.exceptions.ProtoEndException;
-import com.protoend.base.util.exceptions.RequiredObjectException;
 import com.protoend.dao.ProtoTestDAO;
 import com.protoend.model.ProtoEnd;
 import com.protoend.model.Response;
@@ -50,7 +50,7 @@ public class ProtoTestServiceImp implements ProtoTestService {
         ProtoEnd protoEnd = null;
         try {
             protoTestDto.setCreatedTime(Instant.now().getEpochSecond());
-            protoEnd = protoEndRepository.save(protoTestDto.entityMapper());
+            protoEnd = saveProtoCallRequest(protoTestDto);
             logger.info("ProtoEnd saved to db: " + new ProtoEndDto(protoEnd));
             ResponseEntity<Response> responseEntity = processProtoRequest(protoTestDto);
             if (responseEntity.getStatusCode().is2xxSuccessful()) {
@@ -103,5 +103,16 @@ public class ProtoTestServiceImp implements ProtoTestService {
         ProtoEndUtil.notNull(protoEndDto, "ProtoEnd");
         ProtoEndUtil.notNullAndNotEmpty(protoEndDto.getUrl(), "Url");
         ProtoEndUtil.notNull(protoEndDto.getAuthModel(), "Authentication");
+    }
+
+    private ProtoEnd saveProtoCallRequest(ProtoEndDto protoTestDto) {
+        Object requestBody = protoTestDto.getRequestDetail().getRequestBody();
+        if (protoTestDto.getConnectionType().equals(ConnectionType.SFTP)){
+            protoTestDto.getRequestDetail().setRequestBody("");
+        }
+        ProtoEnd protoEnd = protoEndRepository.save(protoTestDto.entityMapper());
+
+        protoTestDto.getRequestDetail().setRequestBody(requestBody);
+        return protoEnd;
     }
 }

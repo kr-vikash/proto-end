@@ -22,10 +22,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Map;
 
 import static com.protoend.base.util.Constants.STRICT_KEY_CHECK_DISABLE;
-import static com.protoend.base.util.ProtoEndUtil.getObjectMapper;
 
 /**
  * FTPConnector used to connect FTP/SFTP shell request
@@ -74,7 +75,10 @@ public class FTPConnector extends ProtoConnector {
             throw new DataFormatException("Invalid port value found!!!, Required format:Integer", HttpStatus.BAD_REQUEST.value());
         }
 
-        Object uploadFileVal = this.getProtoEndDto().getRequestDetail().getRequestBody();
+        String uploadFileVal = String.valueOf(this.getProtoEndDto().getRequestDetail().getRequestBody());
+
+        uploadFileVal = uploadFileVal.substring(uploadFileVal.indexOf(',')+1);
+        Base64.getDecoder().decode(uploadFileVal);
         String pathVal = (addProperties == null || addProperties.get(PATH) == null) ? null : String.valueOf(addProperties.get(PATH));
         String fileName = (addProperties == null || addProperties.get(FILENAME) == null) ? null : String.valueOf(addProperties.get(FILENAME));
         HttpMethod method = this.getProtoEndDto().getRequestDetail().getMethod();
@@ -83,7 +87,7 @@ public class FTPConnector extends ProtoConnector {
 
         try {
             ChannelSftp channelSftp = establishConnection(host, port);
-            logger.info("SFTP/FTP connection status: ", channelSftp.isConnected());
+            logger.info("SFTP/FTP connection status: "+ channelSftp.isConnected());
             if (pathVal != null) {
                 channelSftp.cd(pathVal);
             }
@@ -96,7 +100,7 @@ public class FTPConnector extends ProtoConnector {
                     }
                     break;
                 case POST:
-                    channelSftp.put(new ByteArrayInputStream(getObjectMapper().writeValueAsBytes(uploadFileVal)), fileName);
+                    channelSftp.put(new ByteArrayInputStream(Base64.getDecoder().decode(uploadFileVal)), fileName);
                     response.setBody("File successfully uploaded");
                     break;
                 default:
@@ -139,7 +143,7 @@ public class FTPConnector extends ProtoConnector {
     private String inputStreamToString(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         IOUtils.copy(inputStream, byteArrayOutputStream);
-        return new String(byteArrayOutputStream.toByteArray());
+        return new String(byteArrayOutputStream.toByteArray(), StandardCharsets.UTF_8);
     }
 
 }
