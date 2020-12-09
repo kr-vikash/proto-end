@@ -1,7 +1,6 @@
 package com.protoend.validator;
 
 import com.protoend.auth.authenticator.Authenticator;
-import com.protoend.base.util.exceptions.ProtoEndException;
 import com.protoend.model.Response;
 import com.protoend.model.dto.ProtoEndDto;
 import org.springframework.http.ResponseEntity;

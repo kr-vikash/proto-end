@@ -46,7 +46,7 @@ public class FTPConnector extends ProtoConnector {
 
     public FTPConnector(Authenticator authenticator, ProtoEndDto protoEndDto) throws ProtoEndException {
         if (authenticator instanceof BasicAuthenticator) {
-            this.basicAuth = ((BasicAuthenticator) authenticator).basicModel;
+            this.basicAuth = (Basic) authenticator.getAuthModel();
         } else {
             throw new ProtoEndException("FTP/SFTP only allowed basic authentication", HttpStatus.BAD_REQUEST.value());
         }

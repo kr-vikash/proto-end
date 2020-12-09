@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.jsontype.TypeDeserializer;
 import com.protoend.auth.model.*;
-import com.protoend.base.model.enumerator.AuthType;
+import com.protoend.auth.model.AuthType;
 import com.protoend.base.util.exceptions.ProtoEndException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,21 +1,30 @@
 package com.protoend.auth.model;
 
 
+import com.sun.istack.internal.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+
+import static com.protoend.auth.utils.AuthConstant.BASIC;
+import static com.protoend.base.util.Constants.WHITE_SPACE;
 
 @Getter
 @Setter
 public class Token extends AuthModel {
     private String tokenValue;
-    private String authorizationKey = "Authorization";
-    private String tokenType = "Basic";
+    private String tokenType;
 
-    public Token(){}
+    public Token() {
+    }
 
-    public Token(String tokenValue, String authorizationKey, String tokenType) {
+    public Token(@NotNull String tokenValue, String tokenType, AuthType authType) {
         this.tokenValue = tokenValue;
-        this.authorizationKey = authorizationKey != null ? authorizationKey : this.authorizationKey;
-        this.tokenType = tokenType != null ? tokenType : this.tokenType;
+        this.tokenType = tokenType != null ? tokenType : BASIC;
+        this.authType = AuthType.TOKEN;
+    }
+
+    @Override
+    public String authValue() {
+        return new StringBuilder(tokenType).append(WHITE_SPACE).append(tokenValue).toString();
     }
 }

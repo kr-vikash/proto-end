@@ -1,6 +1,7 @@
 package com.protoend.auth.model;
 
 
+import com.sun.istack.internal.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,7 @@ public class OAuth extends AuthModel {
     private String grantType;
     private String redirectUrl;
 
-    public OAuth(String clientId, String clientSecret, String tokenName, String tokenUrl, String scope, String grantType){
+    public OAuth(@NotNull String clientId, @NotNull String clientSecret, String tokenName, String tokenUrl, String scope, String grantType){
         this.clientId = clientId;
         this.clientSecret = clientSecret;
         this.grantType = grantType;
@@ -24,4 +25,8 @@ public class OAuth extends AuthModel {
         this.tokenUrl = tokenUrl;
     }
 
+    @Override
+    public String authValue() {
+        return null;
+    }
 }
