@@ -2,7 +2,6 @@ package com.protoend.auth.model;
 
 
 import com.protoend.base.util.Constants;
-import com.sun.istack.internal.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +18,7 @@ public class Basic extends AuthModel {
 
     public Basic(){}
 
-    public Basic(@NotNull String username, @NotNull String password, AuthType authType){
+    public Basic(String username, String password, AuthType authType){
         this.username = username;
         this.password = password;
         this.authType = AuthType.BASIC;

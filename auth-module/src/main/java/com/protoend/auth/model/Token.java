@@ -1,7 +1,6 @@
 package com.protoend.auth.model;
 
 
-import com.sun.istack.internal.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +16,7 @@ public class Token extends AuthModel {
     public Token() {
     }
 
-    public Token(@NotNull String tokenValue, String tokenType, AuthType authType) {
+    public Token(String tokenValue, String tokenType, AuthType authType) {
         this.tokenValue = tokenValue;
         this.tokenType = tokenType != null ? tokenType : BASIC;
         this.authType = AuthType.TOKEN;
