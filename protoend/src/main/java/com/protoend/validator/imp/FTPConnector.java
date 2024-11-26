@@ -22,10 +22,11 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.Map;
 
 import static com.protoend.base.util.Constants.STRICT_KEY_CHECK_DISABLE;
-import static com.protoend.base.util.ProtoEndUtil.getObjectMapper;
 
 /**
  * FTPConnector used to connect FTP/SFTP shell request
@@ -43,11 +44,11 @@ public class FTPConnector extends ProtoConnector {
     private static final String FILENAME = "fileName";
     public static final String PORT ="port";
 
-    public FTPConnector(Authenticator authenticator, ProtoEndDto protoEndDto) {
+    public FTPConnector(Authenticator authenticator, ProtoEndDto protoEndDto) throws ProtoEndException {
         if (authenticator instanceof BasicAuthenticator) {
-            this.basicAuth = ((BasicAuthenticator) authenticator).basicModel;
+            this.basicAuth = (Basic) authenticator.getAuthModel();
         } else {
-            throw new ProtoEndException("FTP/SFTP only allowed basic authentication");
+            throw new ProtoEndException("FTP/SFTP only allowed basic authentication", HttpStatus.BAD_REQUEST.value());
         }
         this.ftpClient = BeanUtil.getBean(JSch.class);
         this.setProtoEndDto(protoEndDto);
@@ -60,7 +61,7 @@ public class FTPConnector extends ProtoConnector {
      * @throws DataFormatException      if Any IOException exceptions caught
      */
     @Override
-    public ResponseEntity<Response> connect() {
+    public ResponseEntity<Response> connect() throws ProtoEndException {
 
         String host = this.getProtoEndDto().getUrl();
         Map<String, Object> addProperties = this.getProtoEndDto().getAdditionalProperties();
@@ -71,10 +72,13 @@ public class FTPConnector extends ProtoConnector {
                 port = new Integer(String.valueOf(addProperties.get(PORT)));
             }
         } catch (NumberFormatException e) {
-            throw new DataFormatException("Invalid port value found!!!, Required format:Integer");
+            throw new DataFormatException("Invalid port value found!!!, Required format:Integer", HttpStatus.BAD_REQUEST.value());
         }
 
-        Object uploadFileVal = this.getProtoEndDto().getRequestDetail().getRequestBody();
+        String uploadFileVal = String.valueOf(this.getProtoEndDto().getRequestDetail().getRequestBody());
+
+        uploadFileVal = uploadFileVal.substring(uploadFileVal.indexOf(',')+1);
+        Base64.getDecoder().decode(uploadFileVal);
         String pathVal = (addProperties == null || addProperties.get(PATH) == null) ? null : String.valueOf(addProperties.get(PATH));
         String fileName = (addProperties == null || addProperties.get(FILENAME) == null) ? null : String.valueOf(addProperties.get(FILENAME));
         HttpMethod method = this.getProtoEndDto().getRequestDetail().getMethod();
@@ -83,7 +87,7 @@ public class FTPConnector extends ProtoConnector {
 
         try {
             ChannelSftp channelSftp = establishConnection(host, port);
-            logger.info("SFTP/FTP connection status: ", channelSftp.isConnected());
+            logger.info("SFTP/FTP connection status: "+ channelSftp.isConnected());
             if (pathVal != null) {
                 channelSftp.cd(pathVal);
             }
@@ -96,18 +100,18 @@ public class FTPConnector extends ProtoConnector {
                     }
                     break;
                 case POST:
-                    channelSftp.put(new ByteArrayInputStream(getObjectMapper().writeValueAsBytes(uploadFileVal)), fileName);
+                    channelSftp.put(new ByteArrayInputStream(Base64.getDecoder().decode(uploadFileVal)), fileName);
                     response.setBody("File successfully uploaded");
                     break;
                 default:
-                    throw new ProtoEndException("Invalid method for SFTP connection");
+                    throw new ProtoEndException("Invalid method for SFTP connection", HttpStatus.BAD_REQUEST.value());
             }
         } catch (IOException e) {
             logger.error(e.getMessage(), e);
-            throw new DataFormatException(e.getMessage());
+            throw new DataFormatException(e.getMessage(), HttpStatus.BAD_REQUEST.value());
         } catch (SftpException e) {
             logger.error(e.getMessage(), e);
-            throw new ProtoEndException("Unable to access folder/file from the server");
+            throw new ProtoEndException("Unable to access folder/file from the server", HttpStatus.BAD_GATEWAY.value());
         } finally {
             if (session != null && session.isConnected()) {
                 session.disconnect();
@@ -117,7 +121,7 @@ public class FTPConnector extends ProtoConnector {
 
     }
 
-    private ChannelSftp establishConnection(String host, int port) {
+    private ChannelSftp establishConnection(String host, int port) throws ProtoConnectionException {
         try {
             session = ftpClient.getSession(basicAuth.getUsername(), host);
             // 5 min timeout
@@ -132,14 +136,14 @@ public class FTPConnector extends ProtoConnector {
             return channelSftp;
         } catch (JSchException e) {
             logger.error(e.getMessage(), e);
-            throw new ProtoConnectionException("Unable to establish the FTP/SFTP connection:" + e.getMessage());
+            throw new ProtoConnectionException("Unable to establish the FTP/SFTP connection:" + e.getMessage(), HttpStatus.BAD_GATEWAY.value());
         }
     }
 
     private String inputStreamToString(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         IOUtils.copy(inputStream, byteArrayOutputStream);
-        return new String(byteArrayOutputStream.toByteArray());
+        return new String(byteArrayOutputStream.toByteArray(), StandardCharsets.UTF_8);
     }
 
 }

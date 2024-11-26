@@ -10,7 +10,7 @@ public abstract class ProtoConnector {
     private Authenticator authenticator;
     private ProtoEndDto protoEndDto;
 
-    public ResponseEntity<Response> connect(){
+    public ResponseEntity<Response> connect() {
        return null;
     }
 

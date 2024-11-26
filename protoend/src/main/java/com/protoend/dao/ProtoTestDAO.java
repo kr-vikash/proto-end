@@ -1,7 +1,7 @@
 package com.protoend.dao;
 
 
-import com.protoend.base.model.enumerator.AuthType;
+import com.protoend.auth.model.AuthType;
 import com.protoend.base.model.enumerator.ConnectionType;
 import com.protoend.base.model.enumerator.TestStatus;
 import com.protoend.model.ProtoEnd;
@@ -27,11 +27,12 @@ public class ProtoTestDAO  {
     private Connection connection;
 
 
-    public List<ProtoEnd> getAll() throws SQLException {
+    public List<ProtoEnd> getAll(String connectionType) throws SQLException {
         Connection connection = jdbcTemplate.getDataSource().getConnection();
         Statement statement = connection.createStatement();
+        ConnectionType conn = ConnectionType.valueOf(connectionType.toUpperCase());
         statement.setQueryTimeout(30);
-        ResultSet resultSet = statement.executeQuery("select * from connection order by created_time DESC;");
+        ResultSet resultSet = statement.executeQuery("select * from connection where type=\'"+ conn.ordinal() + "\' order by created_time DESC;");
         List<ProtoEnd> protoEnds = new ArrayList<>();
 
         while (resultSet.next()){

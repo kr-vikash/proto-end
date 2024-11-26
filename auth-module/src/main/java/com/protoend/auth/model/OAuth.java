@@ -24,4 +24,8 @@ public class OAuth extends AuthModel {
         this.tokenUrl = tokenUrl;
     }
 
+    @Override
+    public String authValue() {
+        return null;
+    }
 }

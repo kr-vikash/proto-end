@@ -1,9 +1,10 @@
 package com.protoend.model.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.protoend.auth.model.*;
-import com.protoend.base.model.enumerator.AuthType;
+import com.protoend.auth.model.AuthType;
 import com.protoend.base.model.enumerator.ConnectionType;
 import com.protoend.base.model.enumerator.TestStatus;
 import com.protoend.base.util.ProtoEndUtil;
@@ -21,6 +22,7 @@ import java.util.Map;
 @Getter
 @Setter
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProtoEndDto {
 
     private int id;
@@ -40,6 +42,7 @@ public class ProtoEndDto {
 
     private TestStatus status;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, Object> additionalProperties;
 
 
@@ -87,7 +90,7 @@ public class ProtoEndDto {
                 this.authModel = ProtoEndUtil.getObjectMapper().readValue(protoTest.getAuth(), Token.class);
                 break;
             default:
-                throw new ProtoEndException("Invalid AUTH");
+                throw new ProtoEndException("Invalid AUTH", 500);
         }
     }
 }
